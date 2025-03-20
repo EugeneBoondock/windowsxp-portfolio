@@ -67,7 +67,7 @@
         <!-- Windows XP Desktop -->
         <div class="desktop-icons">
             <div class="desktop-icon" id="about-me-icon">
-                <img src="./icons/my_computer_xp.png" alt="About Me">
+                <img src="./icons/about_me.png" alt="About Me">
                 <span>About Me</span>
             </div>
             <div class="desktop-icon" id="skills-icon">
@@ -351,8 +351,8 @@
                 </div>
                 <div class="ie-address">
                     <span>Address:</span>
-                    <input type="text" value="https://github.com/EugeneBoondock" readonly>
-                    <button class="ie-go">Go</button>
+                    <input type="text" id="ie-address-bar" value="https://github.com/EugeneBoondock">
+                    <button class="ie-go" onclick="navigateIE()">Go</button>
                 </div>
             </div>
             <div class="window-content">
@@ -474,5 +474,11 @@
     </div>
 
     <script src="./js/script.js"></script>
+    <script>
+        function navigateIE() {
+            const url = document.getElementById('ie-address-bar').value;
+            window.open(url, '_blank');
+        }
+    </script>
 </body>
 </html>

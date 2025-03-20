@@ -46,50 +46,72 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to initialize boot sequence
     function initBootSequence() {
         // Show boot screen
-        bootScreen.classList.remove('hidden');
+        if (bootScreen) {
+            bootScreen.classList.remove('hidden');
 
-        // Start boot progress animation
-        let progress = 0;
-        const bootInterval = setInterval(() => {
-            progress += Math.random() * 8 + 2; // More realistic random progress
-            bootProgress.style.width = `${Math.min(progress, 100)}%`;
+            // Start boot progress animation
+            let progress = 0;
+            const bootInterval = setInterval(() => {
+                progress += Math.random() * 8 + 2; // More realistic random progress
+                bootProgress.style.width = `${Math.min(progress, 100)}%`;
 
-            if (progress >= 100) {
-                clearInterval(bootInterval);
-                setTimeout(() => {
-                    bootScreen.classList.add('hidden');
-                    showLoginScreen();
-                }, 800); // Slight delay after progress reaches 100%
-            }
-        }, 250);
+                if (progress >= 100) {
+                    clearInterval(bootInterval);
+                    setTimeout(() => {
+                        bootScreen.classList.add('hidden');
+                        showLoginScreen();
+                    }, 800); // Slight delay after progress reaches 100%
+                }
+            }, 250);
+        } else {
+            // If boot screen doesn't exist, go straight to desktop
+            showDesktop();
+        }
     }
 
     // Function to show login screen
     function showLoginScreen() {
-        loginScreen.classList.remove('hidden');
-        setTimeout(() => {
-            if (soundsEnabled) {
-                startupSound.play().catch(e => console.log('Failed to play sound:', e));
-            }
-        }, 500);
+        if (loginScreen) {
+            loginScreen.classList.remove('hidden');
+            setTimeout(() => {
+                if (soundsEnabled) {
+                    startupSound.play().catch(e => console.log('Failed to play sound:', e));
+                }
+            }, 500);
+        } else {
+            // If login screen doesn't exist, go straight to desktop
+            showDesktop();
+        }
     }
 
-    // Login button click
-    loginButton.addEventListener('click', () => {
-        loginScreen.classList.add('hidden');
-        playSound('notify');
-
+    // Function to show desktop
+    function showDesktop() {
         // Open About Window by default
         setTimeout(() => {
             openWindow('about-window');
         }, 800);
-    });
+    }
+
+    // Login button click
+    if (loginButton) {
+        loginButton.addEventListener('click', () => {
+            loginScreen.classList.add('hidden');
+            playSound('notify');
+
+            // Open About Window by default
+            setTimeout(() => {
+                openWindow('about-window');
+            }, 800);
+        });
+    }
 
     // Toggle sound button click
-    welcomeSoundBtn.addEventListener('click', () => {
-        soundsEnabled = !soundsEnabled;
-        welcomeSoundBtn.textContent = soundsEnabled ? '🔊' : '🔇';
-    });
+    if (welcomeSoundBtn) {
+        welcomeSoundBtn.addEventListener('click', () => {
+            soundsEnabled = !soundsEnabled;
+            welcomeSoundBtn.textContent = soundsEnabled ? '🔊' : '🔇';
+        });
+    }
 
     // Play sound function
     function playSound(sound) {
@@ -123,42 +145,156 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Shutdown computer
-    shutdownBtn.addEventListener('click', () => {
-        startMenu.classList.remove('active');
-        playSound('logout');
+    // Improved desktop icon click handling
+    document.getElementById('about-me-icon').addEventListener('click', (e) => {
+        playSound('click');
+        // Deselect all other icons
+        desktopIcons.forEach(i => i.classList.remove('selected'));
+        // Select this icon
+        e.currentTarget.classList.add('selected');
 
-        // Close all windows first
-        windows.forEach(window => {
-            window.style.display = 'none';
-        });
-
-        // Show shutdown screen
-        shutdownScreen.style.display = 'flex';
-        setTimeout(() => {
-            // Refresh the page after 3 seconds
-            window.location.reload();
-        }, 3000);
+        // On mobile, open window on single click. On desktop, wait for double-click
+        if (isMobile) {
+            openWindow('about-window');
+            e.stopPropagation();
+        }
     });
 
-    // Log off
-    logOffBtn.addEventListener('click', () => {
-        startMenu.classList.remove('active');
-        playSound('logout');
+    // Double-click opens the corresponding window on desktop
+    document.getElementById('about-me-icon').addEventListener('dblclick', (e) => {
+        if (!isMobile) {
+            playSound('notify');
+            openWindow('about-window');
+            e.stopPropagation();
+        }
+    });
 
-        // Close all windows first
-        windows.forEach(window => {
-            window.style.display = 'none';
-        });
+    document.getElementById('skills-icon').addEventListener('click', (e) => {
+        playSound('click');
+        // Deselect all other icons
+        desktopIcons.forEach(i => i.classList.remove('selected'));
+        // Select this icon
+        e.currentTarget.classList.add('selected');
 
-        Object.keys(taskbarItems).forEach(windowId => {
-            removeFromTaskbar(windowId);
-        });
+        // On mobile, open window on single click
+        if (isMobile) {
+            openWindow('skills-window');
+            e.stopPropagation();
+        }
+    });
 
-        // Show login screen again
-        setTimeout(() => {
-            loginScreen.classList.remove('hidden');
-        }, 1000);
+    document.getElementById('skills-icon').addEventListener('dblclick', (e) => {
+        if (!isMobile) {
+            playSound('notify');
+            openWindow('skills-window');
+            e.stopPropagation();
+        }
+    });
+
+    document.getElementById('projects-icon').addEventListener('click', (e) => {
+        playSound('click');
+        // Deselect all other icons
+        desktopIcons.forEach(i => i.classList.remove('selected'));
+        // Select this icon
+        e.currentTarget.classList.add('selected');
+
+        // On mobile, open window on single click
+        if (isMobile) {
+            openWindow('projects-window');
+            e.stopPropagation();
+        }
+    });
+
+    document.getElementById('projects-icon').addEventListener('dblclick', (e) => {
+        if (!isMobile) {
+            playSound('notify');
+            openWindow('projects-window');
+            e.stopPropagation();
+        }
+    });
+
+    document.getElementById('contact-icon').addEventListener('click', (e) => {
+        playSound('click');
+        // Deselect all other icons
+        desktopIcons.forEach(i => i.classList.remove('selected'));
+        // Select this icon
+        e.currentTarget.classList.add('selected');
+
+        // On mobile, open window on single click
+        if (isMobile) {
+            openWindow('contact-window');
+            e.stopPropagation();
+        }
+    });
+
+    document.getElementById('contact-icon').addEventListener('dblclick', (e) => {
+        if (!isMobile) {
+            playSound('notify');
+            openWindow('contact-window');
+            e.stopPropagation();
+        }
+    });
+
+    // Special handling for the Recycle Bin icon
+    document.getElementById('recycle-bin-icon').addEventListener('click', (e) => {
+        playSound('click');
+        // Deselect all other icons
+        desktopIcons.forEach(i => i.classList.remove('selected'));
+        // Select this icon
+        e.currentTarget.classList.add('selected');
+
+        // 50% chance of showing an error
+        if (Math.random() < 0.5) {
+            errorDialog.style.display = 'flex';
+            playSound('error');
+        }
+    });
+
+    // Special handling for the Portfolio icon
+    document.getElementById('my-computer-icon').addEventListener('click', (e) => {
+        playSound('click');
+        // Deselect all other icons
+        desktopIcons.forEach(i => i.classList.remove('selected'));
+        // Select this icon
+        e.currentTarget.classList.add('selected');
+
+        // On mobile, open window on single click
+        if (isMobile) {
+            openWindow('my-computer-window');
+            e.stopPropagation();
+        }
+    });
+
+    document.getElementById('my-computer-icon').addEventListener('dblclick', (e) => {
+        const ieWindow = document.getElementById('my-computer-window');
+        playSound('notify');
+
+        // If window is already open, just make it active
+        if (ieWindow.style.display === 'flex') {
+            setActiveWindow(ieWindow);
+            return;
+        }
+
+        // Show the loading screen first
+        openWindow('my-computer-window');
+        const ieContent = ieWindow.querySelector('.ie-content');
+        const ieLoading = ieWindow.querySelector('.ie-loading');
+        const ieFrame = ieWindow.querySelector('.ie-frame');
+
+        // Show loading, hide content
+        if (ieLoading && ieFrame) {
+            ieFrame.style.display = 'none';
+            ieLoading.style.display = 'block';
+
+            // Simulate loading
+            setTimeout(() => {
+                ieLoading.style.display = 'none';
+                ieFrame.style.display = 'block';
+                playSound('notify');
+            }, 2000);
+        }
+
+        e.stopPropagation();
     });
 
     // Error dialog close button
@@ -175,319 +311,87 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Show error dialog occasionally when clicking on recycle bin
-    document.getElementById('recycle-bin-icon').addEventListener('click', () => {
-        if (Math.random() < 0.5) { // 50% chance of showing error
-            errorDialog.style.display = 'flex';
-            playSound('error');
-        }
-    });
+    // Add navigation for the IE back/forward buttons
+    const ieBackBtn = document.querySelector('.ie-back');
+    const ieForwardBtn = document.querySelector('.ie-forward');
+    const ieRefreshBtn = document.querySelector('.ie-refresh');
+    const ieHomeBtn = document.querySelector('.ie-home');
+    const ieStopBtn = document.querySelector('.ie-stop');
 
-    // Initialize tab navigation in projects window
-    initTabs();
-
-    // Set current time in the taskbar
-    updateClock();
-    setInterval(updateClock, 60000); // Update every minute
-
-    // Track window that is currently maximized
-    let maximizedWindow = null;
-
-    // Make desktop icons selectable with Windows XP behavior
-    desktopIcons.forEach(icon => {
-        // Single click selects the icon
-        icon.addEventListener('click', (e) => {
-            // Deselect all other icons
-            desktopIcons.forEach(i => i.classList.remove('selected'));
-            // Select this icon
-            icon.classList.add('selected');
-            playSound('click');
-        });
-
-        // Double click opens the corresponding window
-        icon.addEventListener('dblclick', (e) => {
-            playSound('notify');
-            const id = icon.id;
-            if (id.includes('icon')) {
-                const windowId = id.replace('-icon', '-window');
-                if (document.getElementById(windowId)) {
-                    openWindow(windowId);
-                }
-            }
-        });
-    });
-
-    // Click on desktop background to deselect all icons
-    desktop.addEventListener('click', (e) => {
-        if (e.target === desktop) {
-            desktopIcons.forEach(icon => icon.classList.remove('selected'));
-        }
-    });
-
-    // Desktop icons click handling - simplified for mobile
-    document.getElementById('about-me-icon').addEventListener('click', (e) => {
-        if (isMobile) {
-            playSound('click');
-            openWindow('about-window');
-            e.stopPropagation();
-        }
-    });
-
-    document.getElementById('skills-icon').addEventListener('click', (e) => {
-        if (isMobile) {
-            playSound('click');
-            openWindow('skills-window');
-            e.stopPropagation();
-        }
-    });
-
-    document.getElementById('projects-icon').addEventListener('click', (e) => {
-        if (isMobile) {
-            playSound('click');
-            openWindow('projects-window');
-            e.stopPropagation();
-        }
-    });
-
-    document.getElementById('contact-icon').addEventListener('click', (e) => {
-        if (isMobile) {
-            playSound('click');
-            openWindow('contact-window');
-            e.stopPropagation();
-        }
-    });
-
-    // Add IE window animation
-    document.getElementById('my-computer-icon').addEventListener('click', (e) => {
-        if (isMobile) {
-            playSound('click');
-            openWindow('my-computer-window');
-            e.stopPropagation();
-        } else {
-            playSound('click');
-            const ieWindow = document.getElementById('my-computer-window');
-
-            // If window is already open, just make it active
-            if (ieWindow.style.display === 'flex') {
-                setActiveWindow(ieWindow);
-                return;
-            }
-
-            // Show the loading screen first
-            openWindow('my-computer-window');
-            const ieContent = ieWindow.querySelector('.ie-content');
-            const ieLoading = ieWindow.querySelector('.ie-loading');
-            const ieFrame = ieWindow.querySelector('.ie-frame');
-
-            // Show loading, hide content
-            if (ieLoading && ieFrame) {
-                ieFrame.style.display = 'none';
-                ieLoading.style.display = 'block';
-
-                // Simulate loading
-                setTimeout(() => {
-                    ieLoading.style.display = 'none';
-                    ieFrame.style.display = 'block';
-                    playSound('notify');
-                }, 2000);
-            }
-        }
-    });
-
-    // Start menu toggle
-    startMenuButton.addEventListener('click', () => {
+    if (ieBackBtn) ieBackBtn.addEventListener('click', () => playSound('click'));
+    if (ieForwardBtn) ieForwardBtn.addEventListener('click', () => playSound('click'));
+    if (ieRefreshBtn) ieRefreshBtn.addEventListener('click', () => {
         playSound('click');
-        startMenu.classList.toggle('active');
-    });
+        // Refresh the IE frame
+        const ieWindow = document.getElementById('my-computer-window');
+        const ieFrame = ieWindow.querySelector('.ie-frame');
+        const ieLoading = ieWindow.querySelector('.ie-loading');
 
-    // Close start menu when clicking elsewhere
-    document.addEventListener('click', (e) => {
-        if (!startMenu.contains(e.target) && !startMenuButton.contains(e.target) && startMenu.classList.contains('active')) {
-            startMenu.classList.remove('active');
+        if (ieFrame && ieLoading) {
+            ieFrame.style.display = 'none';
+            ieLoading.style.display = 'block';
+
+            setTimeout(() => {
+                ieLoading.style.display = 'none';
+                ieFrame.style.display = 'block';
+                playSound('notify');
+            }, 1000);
         }
     });
 
-    // Initialize windows with draggable behavior
-    initializeWindows();
+    if (ieHomeBtn) ieHomeBtn.addEventListener('click', () => {
+        playSound('click');
+        document.getElementById('ie-address-bar').value = 'https://github.com/EugeneBoondock';
+    });
 
-    // Initialize window buttons (minimize, maximize, close)
-    initializeWindowButtons();
+    if (ieStopBtn) ieStopBtn.addEventListener('click', () => {
+        playSound('click');
+        // Stop the loading animation
+        const ieWindow = document.getElementById('my-computer-window');
+        const ieFrame = ieWindow.querySelector('.ie-frame');
+        const ieLoading = ieWindow.querySelector('.ie-loading');
 
-    // Function to initialize tab navigation
-    function initTabs() {
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                // Play click sound
-                playSound('click');
+        if (ieLoading) {
+            ieLoading.style.display = 'none';
+        }
 
-                // Get the tab target
-                const targetId = tab.dataset.tab;
+        if (ieFrame) {
+            ieFrame.style.display = 'block';
+        }
+    });
 
-                // Hide all tab contents
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.style.display = 'none';
-                });
+    // Add global IE navigation function
+    window.navigateIE = function() {
+        const url = document.getElementById('ie-address-bar').value;
 
-                // Show the selected tab content
-                document.getElementById(targetId).style.display = 'block';
+        if (!url) return;
 
-                // Update active tab state
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-            });
-        });
-    }
+        // Show the loading animation
+        const ieWindow = document.getElementById('my-computer-window');
+        const ieFrame = ieWindow.querySelector('.ie-frame');
+        const ieLoading = ieWindow.querySelector('.ie-loading');
 
-    // Function to initialize windows
-    function initializeWindows() {
-        windows.forEach(window => {
-            const header = window.querySelector('.window-header');
+        if (ieFrame && ieLoading) {
+            ieFrame.style.display = 'none';
+            ieLoading.style.display = 'block';
 
-            // Make window active when clicked
-            window.addEventListener('mousedown', () => {
-                if (window.style.display !== 'none') {
-                    setActiveWindow(window);
-                }
-            });
-
-            window.addEventListener('touchstart', () => {
-                if (window.style.display !== 'none') {
-                    setActiveWindow(window);
-                }
-            });
-
-            // Set up dragging behavior for window headers
-            header.addEventListener('mousedown', (e) => {
-                if (e.target.tagName !== 'BUTTON' && !window.classList.contains('maximized')) {
-                    isDragging = true;
-                    activeWindow = window;
-
-                    initialX = e.clientX;
-                    initialY = e.clientY;
-                    initialLeft = parseInt(window.style.left || window.offsetLeft);
-                    initialTop = parseInt(window.style.top || window.offsetTop);
-
-                    // Add a dragging class for styling
-                    window.classList.add('dragging');
-
-                    // Prevent text selection during drag
-                    e.preventDefault();
-                }
-            });
-
-            // Touch support for dragging
-            header.addEventListener('touchstart', (e) => {
-                if (e.target.tagName !== 'BUTTON' && !window.classList.contains('maximized')) {
-                    isDragging = true;
-                    activeWindow = window;
-
-                    initialX = e.touches[0].clientX;
-                    initialY = e.touches[0].clientY;
-                    initialLeft = parseInt(window.style.left || window.offsetLeft);
-                    initialTop = parseInt(window.style.top || window.offsetTop);
-
-                    // Add a dragging class for styling
-                    window.classList.add('dragging');
-
-                    // Prevent default touch behavior
-                    e.preventDefault();
-                }
-            }, { passive: false });
-
-            // Double-click on header to maximize/restore
-            header.addEventListener('dblclick', (e) => {
-                if (e.target.tagName !== 'BUTTON') {
-                    const windowId = window.id;
-                    if (window.classList.contains('maximized')) {
-                        restoreWindow(windowId);
-                    } else {
-                        maximizeWindow(windowId);
-                    }
-                    playSound('click');
-                }
-            });
-        });
-
-        // Window dragging behavior
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging && activeWindow) {
-                const newLeft = initialLeft + (e.clientX - initialX);
-                const newTop = initialTop + (e.clientY - initialY);
-
-                // Keep window within viewport boundaries
-                const maxLeft = window.innerWidth - activeWindow.offsetWidth;
-                const maxTop = window.innerHeight - activeWindow.offsetHeight;
-
-                activeWindow.style.left = Math.min(Math.max(0, newLeft), maxLeft) + 'px';
-                activeWindow.style.top = Math.min(Math.max(0, newTop), maxTop) + 'px';
-            }
-        });
-
-        // Touch support for dragging
-        document.addEventListener('touchmove', (e) => {
-            if (isDragging && activeWindow) {
-                const newLeft = initialLeft + (e.touches[0].clientX - initialX);
-                const newTop = initialTop + (e.touches[0].clientY - initialY);
-
-                // Keep window within viewport boundaries
-                const maxLeft = window.innerWidth - activeWindow.offsetWidth;
-                const maxTop = window.innerHeight - activeWindow.offsetHeight;
-
-                activeWindow.style.left = Math.min(Math.max(0, newLeft), maxLeft) + 'px';
-                activeWindow.style.top = Math.min(Math.max(0, newTop), maxTop) + 'px';
-            }
-        }, { passive: false });
-
-        document.addEventListener('mouseup', () => {
-            if (isDragging && activeWindow) {
-                activeWindow.classList.remove('dragging');
-                isDragging = false;
-            }
-        });
-
-        document.addEventListener('touchend', () => {
-            if (isDragging && activeWindow) {
-                activeWindow.classList.remove('dragging');
-                isDragging = false;
-            }
-        });
-    }
-
-    // Function to initialize window control buttons
-    function initializeWindowButtons() {
-        windows.forEach(window => {
-            const windowId = window.id;
-            const closeBtn = window.querySelector('.close-btn');
-            const minimizeBtn = window.querySelector('.minimize-btn');
-            const maximizeBtn = window.querySelector('.maximize-btn');
-
-            // Close button
-            closeBtn.addEventListener('click', () => {
-                playSound('click');
-                closeWindow(windowId);
-            });
-
-            // Minimize button
-            minimizeBtn.addEventListener('click', () => {
-                playSound('click');
-                minimizeWindow(windowId);
-            });
-
-            // Maximize button
-            maximizeBtn.addEventListener('click', () => {
-                playSound('click');
-                if (window.classList.contains('maximized')) {
-                    restoreWindow(windowId);
-                } else {
-                    maximizeWindow(windowId);
-                }
-            });
-        });
-    }
+            // Simulate loading, then open in new tab
+            setTimeout(() => {
+                ieLoading.style.display = 'none';
+                ieFrame.style.display = 'block';
+                playSound('notify');
+                window.open(url, '_blank');
+            }, 1500);
+        } else {
+            // If elements don't exist, just open the URL
+            window.open(url, '_blank');
+        }
+    };
 
     // Function to open a window
     function openWindow(windowId) {
         const window = document.getElementById(windowId);
+        if (!window) return;
 
         // If window was minimized, remove from minimized array
         const index = minimizedWindows.indexOf(windowId);
@@ -503,117 +407,32 @@ document.addEventListener('DOMContentLoaded', function() {
         addToTaskbar(windowId);
     }
 
-    // Function to close a window
-    function closeWindow(windowId) {
-        const window = document.getElementById(windowId);
-        window.style.display = 'none';
-
-        // If window was maximized, update the maximized window reference
-        if (window.classList.contains('maximized')) {
-            maximizedWindow = null;
-            window.classList.remove('maximized');
-        }
-
-        // Remove from minimized windows if it was minimized
-        const index = minimizedWindows.indexOf(windowId);
-        if (index > -1) {
-            minimizedWindows.splice(index, 1);
-        }
-
-        // Remove from taskbar
-        removeFromTaskbar(windowId);
-    }
-
-    // Function to minimize a window
-    function minimizeWindow(windowId) {
-        const window = document.getElementById(windowId);
-
-        // Hide the window
-        window.style.display = 'none';
-
-        // Add to minimized windows array if not already there
-        if (!minimizedWindows.includes(windowId)) {
-            minimizedWindows.push(windowId);
-        }
-
-        // Add to taskbar if not already there
-        addToTaskbar(windowId);
-    }
-
-    // Function to maximize a window
-    function maximizeWindow(windowId) {
-        const window = document.getElementById(windowId);
-
-        // If there's already a maximized window, restore it first
-        if (maximizedWindow && maximizedWindow !== window) {
-            maximizedWindow.classList.remove('maximized');
-            maximizedWindow.style.width = maximizedWindow.dataset.prevWidth;
-            maximizedWindow.style.height = maximizedWindow.dataset.prevHeight;
-            maximizedWindow.style.top = maximizedWindow.dataset.prevTop;
-            maximizedWindow.style.left = maximizedWindow.dataset.prevLeft;
-        }
-
-        // Save current size and position
-        window.dataset.prevWidth = window.style.width || window.offsetWidth + 'px';
-        window.dataset.prevHeight = window.style.height || window.offsetHeight + 'px';
-        window.dataset.prevTop = window.style.top || window.offsetTop + 'px';
-        window.dataset.prevLeft = window.style.left || window.offsetLeft + 'px';
-
-        // Maximize
-        if (isMobile) {
-            window.style.width = '100%';
-            window.style.height = 'calc(100% - 35px)'; // Adjust for taskbar
-            window.style.top = '0';
-            window.style.left = '0';
-        } else {
-            window.style.width = 'calc(100% - 6px)';
-            window.style.height = 'calc(100% - 36px)'; // Adjust for taskbar
-            window.style.top = '0';
-            window.style.left = '0';
-        }
-
-        window.classList.add('maximized');
-        maximizedWindow = window;
-
-        // Make sure the window is visible and active
-        window.style.display = 'flex';
-        setActiveWindow(window);
-    }
-
-    // Function to restore a window from maximized state
-    function restoreWindow(windowId) {
-        const window = document.getElementById(windowId);
-
-        if (window.classList.contains('maximized')) {
-            // Restore previous size and position
-            window.style.width = window.dataset.prevWidth;
-            window.style.height = window.dataset.prevHeight;
-            window.style.top = window.dataset.prevTop;
-            window.style.left = window.dataset.prevLeft;
-            window.classList.remove('maximized');
-            maximizedWindow = null;
-        }
-
-        // Make sure the window is visible and active
-        window.style.display = 'flex';
-        setActiveWindow(window);
-    }
-
     // Function to set the active window
     function setActiveWindow(window) {
-        // Add inactive class to all window headers
+        if (!window) return;
+
+        // Remove active class from all windows
         windows.forEach(w => {
             w.classList.remove('active');
             w.style.zIndex = 10;
-            w.querySelector('.window-header').classList.add('inactive');
-            w.querySelector('.window-controls').classList.add('inactive');
+
+            // Add inactive class to window headers and controls
+            const header = w.querySelector('.window-header');
+            const controls = w.querySelector('.window-controls');
+            if (header) header.classList.add('inactive');
+            if (controls) controls.classList.add('inactive');
         });
 
-        // Remove inactive class from active window header
+        // Add active class to this window and bring to front
         window.classList.add('active');
         window.style.zIndex = 100;
-        window.querySelector('.window-header').classList.remove('inactive');
-        window.querySelector('.window-controls').classList.remove('inactive');
+
+        // Remove inactive class from active window header
+        const header = window.querySelector('.window-header');
+        const controls = window.querySelector('.window-controls');
+        if (header) header.classList.remove('inactive');
+        if (controls) controls.classList.remove('inactive');
+
         activeWindow = window;
 
         // Update taskbar to show which window is active
@@ -624,6 +443,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function addToTaskbar(windowId) {
         if (!taskbarItems[windowId]) {
             const window = document.getElementById(windowId);
+            if (!window) return;
+
             const windowTitle = window.querySelector('.window-title').textContent;
 
             // Create taskbar item
@@ -671,19 +492,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Function to remove a window from the taskbar
-    function removeFromTaskbar(windowId) {
-        if (taskbarItems[windowId]) {
-            openWindowsContainer.removeChild(taskbarItems[windowId]);
-            delete taskbarItems[windowId];
-        }
-    }
-
     // Function to update taskbar to show active window
     function updateTaskbarActiveState(activeWindowId) {
         // Remove active class from all taskbar items
         Object.keys(taskbarItems).forEach(windowId => {
-            taskbarItems[windowId].classList.remove('active');
+            if (taskbarItems[windowId]) {
+                taskbarItems[windowId].classList.remove('active');
+            }
         });
 
         // Add active class to the active window's taskbar item
@@ -692,8 +507,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Function to minimize a window
+    function minimizeWindow(windowId) {
+        const window = document.getElementById(windowId);
+        if (!window) return;
+
+        // Hide the window
+        window.style.display = 'none';
+
+        // Add to minimized windows array if not already there
+        if (!minimizedWindows.includes(windowId)) {
+            minimizedWindows.push(windowId);
+        }
+
+        // Add to taskbar if not already there
+        addToTaskbar(windowId);
+    }
+
     // Function to update the clock in the taskbar
     function updateClock() {
+        const timeElement = document.querySelector('.time');
+        if (!timeElement) return;
+
         const now = new Date();
         let hours = now.getHours();
         const minutes = now.getMinutes().toString().padStart(2, '0');
@@ -703,84 +538,25 @@ document.addEventListener('DOMContentLoaded', function() {
         hours = hours ? hours : 12; // Convert 0 to 12
 
         const timeString = `${hours}:${minutes} ${ampm}`;
-        document.querySelector('.time').textContent = timeString;
+        timeElement.textContent = timeString;
     }
 
-    // Let's add some typewriter effect for the intro text
-    const welcomeMessages = [
-        "Welcome to my Windows XP portfolio!",
-        "Browsing with Internet Explorer?",
-        "You've got mail!",
-        "No viruses detected... yet.",
-        "System running smoothly."
-    ];
+    // Update the clock initially and then every minute
+    updateClock();
+    setInterval(updateClock, 60000);
 
-    let currentMessageIndex = 0;
-    let charIndex = 0;
-    const typingSpeed = 50; // ms per character
-    const pauseDuration = 3000; // pause between messages
-
-    function typeMessage() {
-        const message = welcomeMessages[currentMessageIndex];
-
-        if (charIndex < message.length) {
-            // Continue typing current message
-            if (document.getElementById('about-window').style.display !== 'none') {
-                const typingArea = document.querySelector('.about-me-content p');
-                if (typingArea) {
-                    typingArea.innerHTML = `A junior web developer, who builds web wonders and tinkers with AI marvels.<br><span style="color: #0078d7; font-style: italic;">${message.substring(0, charIndex + 1)}</span>`;
-                }
-            }
-            charIndex++;
-            setTimeout(typeMessage, typingSpeed);
-        } else {
-            // Finished typing, wait before erasing
-            setTimeout(eraseMessage, pauseDuration);
-        }
+    // Start menu toggle
+    if (startMenuButton) {
+        startMenuButton.addEventListener('click', () => {
+            playSound('click');
+            startMenu.classList.toggle('active');
+        });
     }
 
-    function eraseMessage() {
-        const message = welcomeMessages[currentMessageIndex];
-
-        if (charIndex > 0) {
-            // Erase the message character by character
-            if (document.getElementById('about-window').style.display !== 'none') {
-                const typingArea = document.querySelector('.about-me-content p');
-                if (typingArea) {
-                    typingArea.innerHTML = `A junior web developer, who builds web wonders and tinkers with AI marvels.<br><span style="color: #0078d7; font-style: italic;">${message.substring(0, charIndex)}</span>`;
-                }
-            }
-            charIndex--;
-            setTimeout(eraseMessage, typingSpeed / 2); // Erase faster than type
-        } else {
-            // Move to next message
-            currentMessageIndex = (currentMessageIndex + 1) % welcomeMessages.length;
-            setTimeout(typeMessage, typingSpeed);
-        }
-    }
-
-    // Start the typing animation after login
-    setTimeout(typeMessage, 3000);
-
-    // Check for window resize to update isMobile flag
-    window.addEventListener('resize', () => {
-        const wasMobile = isMobile;
-        isMobile = window.innerWidth <= 768;
-
-        // If changing between mobile and desktop, adjust windows if needed
-        if (wasMobile !== isMobile) {
-            // Adjust maximized windows for the new screen size
-            windows.forEach(window => {
-                if (window.classList.contains('maximized')) {
-                    if (isMobile) {
-                        window.style.width = '100%';
-                        window.style.height = 'calc(100% - 35px)';
-                    } else {
-                        window.style.width = 'calc(100% - 6px)';
-                        window.style.height = 'calc(100% - 36px)';
-                    }
-                }
-            });
+    // Close start menu when clicking elsewhere
+    document.addEventListener('click', (e) => {
+        if (startMenu && !startMenu.contains(e.target) && startMenuButton && !startMenuButton.contains(e.target) && startMenu.classList.contains('active')) {
+            startMenu.classList.remove('active');
         }
     });
 
