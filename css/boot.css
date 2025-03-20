@@ -1,0 +1,202 @@
+/* Windows XP Boot Screen Styles */
+
+.boot-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.boot-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.boot-logo {
+    width: 200px;
+    height: 200px;
+    margin-bottom: 40px;
+    background-image: url('../images/xp-logo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.boot-progress-bar {
+    width: 300px;
+    height: 20px;
+    background-color: #333;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.boot-progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%);
+    transition: width 0.5s ease-in-out;
+    border-radius: 10px;
+}
+
+.boot-text {
+    margin-top: 20px;
+    color: #fff;
+    font-family: 'Tahoma', sans-serif;
+    font-size: 14px;
+}
+
+.boot-copyright {
+    position: absolute;
+    bottom: 30px;
+    color: #fff;
+    font-family: 'Tahoma', sans-serif;
+    font-size: 12px;
+    text-align: center;
+    width: 100%;
+}
+
+/* Windows XP loading animation */
+.loading-blocks {
+    display: flex;
+    margin-top: 20px;
+}
+
+.loading-block {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    background-color: #2989d8;
+    border-radius: 2px;
+    animation: pulse 1s infinite ease-in-out;
+}
+
+.loading-block:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loading-block:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(0.8);
+        opacity: 0.5;
+    }
+}
+
+/* Login screen */
+.login-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/login-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.login-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.login-box {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.user-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-image: url('../icons/user.png');
+    background-size: cover;
+    margin: 0 auto 20px auto;
+    border: 3px solid #1e5799;
+}
+
+.user-name {
+    font-family: 'Tahoma', sans-serif;
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.login-button {
+    padding: 8px 20px;
+    background: linear-gradient(to bottom, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-family: 'Tahoma', sans-serif;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.login-button:hover {
+    background: linear-gradient(to bottom, #7db9e8 0%, #207cca 50%, #2989d8 51%, #1e5799 100%);
+}
+
+.welcome-sound-btn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.welcome-sound-btn:hover {
+    opacity: 1;
+}
+
+/* Windows XP shutdown screen */
+.shutdown-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 10000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-family: 'Tahoma', sans-serif;
+    font-size: 24px;
+}
+
+.shutdown-text {
+    margin-bottom: 100px;
+}

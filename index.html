@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eugene Boondock - Windows XP Experience</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/taskbar.css">
+    <link rel="stylesheet" href="./css/mediaqueries.css">
+    <link rel="stylesheet" href="./css/boot.css">
+    <link rel="stylesheet" href="./css/ie.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Tahoma&display=swap" rel="stylesheet">
+    <link rel="icon" href="./icons/my_computer_xp.png" type="image/png">
+</head>
+<body>
+    <!-- Windows XP Boot Screen -->
+    <div class="boot-screen">
+        <div class="boot-logo"></div>
+        <div class="boot-progress-bar">
+            <div class="boot-progress"></div>
+        </div>
+        <div class="loading-blocks">
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+            <div class="loading-block"></div>
+        </div>
+        <div class="boot-text">Starting Windows...</div>
+        <div class="boot-copyright">Microsoft Windows XP Professional Edition | Copyright © Eugene Boondock</div>
+    </div>
+
+    <!-- Windows XP Login Screen -->
+    <div class="login-screen">
+        <div class="login-box">
+            <div class="user-icon"></div>
+            <div class="user-name">Eugene Boondock</div>
+            <button class="login-button">Log On</button>
+        </div>
+        <button class="welcome-sound-btn" title="Toggle Windows XP Startup Sound">🔊</button>
+    </div>
+
+    <!-- Shutdown Screen -->
+    <div class="shutdown-screen">
+        <div class="shutdown-text">It is now safe to turn off your computer.</div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="startup-sound" preload="auto">
+        <source src="./sounds/startup.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="error-sound" preload="auto">
+        <source src="./sounds/error.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="click-sound" preload="auto">
+        <source src="./sounds/click.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="notify-sound" preload="auto">
+        <source src="./sounds/notify.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="logout-sound" preload="auto">
+        <source src="./sounds/logout.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="desktop">
+        <!-- Windows XP Desktop -->
+        <div class="desktop-icons">
+            <div class="desktop-icon" id="about-me-icon">
+                <img src="./icons/my_computer_xp.png" alt="About Me">
+                <span>About Me</span>
+            </div>
+            <div class="desktop-icon" id="skills-icon">
+                <img src="./icons/documents_xp.png" alt="Skills">
+                <span>Skills</span>
+            </div>
+            <div class="desktop-icon" id="projects-icon">
+                <img src="./icons/msn_xp.png" alt="Projects">
+                <span>Projects</span>
+            </div>
+            <div class="desktop-icon" id="contact-icon">
+                <img src="./icons/notepad_xp.png" alt="Contact">
+                <span>Contact</span>
+            </div>
+            <div class="desktop-icon" id="my-computer-icon">
+                <img src="./icons/ie_xp.png" alt="My Computer">
+                <span>Portfolio</span>
+            </div>
+            <div class="desktop-icon" id="recycle-bin-icon">
+                <img src="./icons/recycle_bin_xp.png" alt="Recycle Bin">
+                <span>Recycle Bin</span>
+            </div>
+        </div>
+
+        <!-- Taskbar -->
+        <div class="taskbar">
+            <div class="start-menu-button">
+                <img src="./icons/start.png" alt="Start">
+                <span>Start</span>
+            </div>
+            <div class="taskbar-divider"></div>
+            <div class="open-windows"></div>
+            <div class="system-tray">
+                <span class="time">12:00 PM</span>
+            </div>
+        </div>
+
+        <!-- Windows -->
+        <div class="window" id="about-window">
+            <div class="window-header">
+                <div class="window-title">About Me</div>
+                <div class="window-controls">
+                    <button class="minimize-btn">-</button>
+                    <button class="maximize-btn">□</button>
+                    <button class="close-btn">✕</button>
+                </div>
+            </div>
+            <div class="window-toolbar">
+                <button>File</button>
+                <button>Edit</button>
+                <button>View</button>
+                <button>Help</button>
+            </div>
+            <div class="window-content">
+                <div class="about-me-content">
+                    <h2>Hi, Eugene here.</h2>
+                    <p>A junior web developer, who builds web wonders and tinkers with AI marvels.</p>
+
+                    <div class="about-details">
+                        <p>👓 <strong>Junior Web Developer</strong></p>
+                        <p>🌍 <strong>Explorer of the Metaverse [Web3] | Earth2</strong></p>
+                        <p>🎓 <strong>AI Aficionado | AI Researcher in Training</strong></p>
+                        <p>📚 <strong>Eager Learner | Deep Learning Devotee</strong></p>
+                        <p>🤝 <strong>Community Builder | Earth2 Moderator</strong></p>
+                        <p>🚀 <strong>AI Explorer | Creating proprietary AI apps</strong></p>
+                        <p>🎓 <strong>Politics & International Relations Graduate</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="window-statusbar">
+                <span>Ready</span>
+            </div>
+        </div>
+
+        <div class="window" id="skills-window">
+            <div class="window-header">
+                <div class="window-title">Skills</div>
+                <div class="window-controls">
+                    <button class="minimize-btn">-</button>
+                    <button class="maximize-btn">□</button>
+                    <button class="close-btn">✕</button>
+                </div>
+            </div>
+            <div class="window-toolbar">
+                <button>File</button>
+                <button>Edit</button>
+                <button>View</button>
+                <button>Tools</button>
+            </div>
+            <div class="window-content">
+                <div class="skills-content">
+                    <h2>Skills</h2>
+                    <div class="skill-categories">
+                        <div class="skill-category">
+                            <h3>Backend Development</h3>
+                            <ul>
+                                <li>Python <span>(Intermediate)</span></li>
+                                <li>JavaScript <span>(Basic)</span></li>
+                                <li>SQL <span>(Basic)</span></li>
+                                <li>Bun library <span>(Basic)</span></li>
+                            </ul>
+                        </div>
+                        <div class="skill-category">
+                            <h3>Frontend Development</h3>
+                            <ul>
+                                <li>HTML <span>(Intermediate)</span></li>
+                                <li>HTMX <span>(Basic)</span></li>
+                                <li>CSS <span>(Intermediate)</span></li>
+                                <li>Version Control - Git <span>(Intermediate)</span></li>
+                            </ul>
+                        </div>
+                        <div class="skill-category">
+                            <h3>AI Research</h3>
+                            <ul>
+                                <li>Google Collab <span>(Basic)</span></li>
+                                <li>HuggingFace <span>(Basic)</span></li>
+                                <li>Cursor <span>(Intermediate)</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="window-statusbar">
+                <span>Ready</span>
+            </div>
+        </div>
+
+        <div class="window" id="projects-window">
+            <div class="window-header">
+                <div class="window-title">Personal Projects</div>
+                <div class="window-controls">
+                    <button class="minimize-btn">-</button>
+                    <button class="maximize-btn">□</button>
+                    <button class="close-btn">✕</button>
+                </div>
+            </div>
+            <div class="window-toolbar">
+                <button>File</button>
+                <button>Edit</button>
+                <button>View</button>
+                <button>Tools</button>
+                <button>Help</button>
+            </div>
+            <div class="window-content">
+                <div class="projects-content">
+                    <h2>Personal Projects</h2>
+                    <div class="windows-tabs">
+                        <div class="tab active" data-tab="tab-web">Web Development</div>
+                        <div class="tab" data-tab="tab-ai">AI Projects</div>
+                        <div class="tab" data-tab="tab-web3">Web3 & Earth2</div>
+                    </div>
+                    <div class="tab-content" id="tab-web">
+                        <div class="project-cards">
+                            <div class="project-card">
+                                <h3>3rd Island Tours</h3>
+                                <p>A professional tourism website for 3rd Island Tours showcasing their services and destinations.</p>
+                                <a href="https://3rdislandtours.com" target="_blank">Visit Website</a>
+                            </div>
+                            <div class="project-card">
+                                <h3>HeadPhones Website</h3>
+                                <p>Visually appealing and fully functional web page for a headphones website. Design copied from figma and made with CSS and HTML.</p>
+                                <a href="https://github.com/EugeneBoondock/headphones" target="_blank">Source Code</a>
+                            </div>
+                            <div class="project-card">
+                                <h3>Advanced CSS Website</h3>
+                                <p>Visually appealing and fully functional web page for a Get Schooled website. Design copied from figma and made with CSS and HTML.</p>
+                                <a href="https://github.com/EugeneBoondock/alx_html_css/tree/main/css_advanced" target="_blank">Source Code</a>
+                            </div>
+                            <div class="project-card">
+                                <h3>Boondocks Guild Website</h3>
+                                <p>Website representing the Boondocks Guild in Earth2.</p>
+                                <a href="https://github.com/EugeneBoondock/Boondocks_Guild_Site" target="_blank">Source Code</a>
+                            </div>
+                            <div class="project-card">
+                                <h3>Personal Portfolio Website</h3>
+                                <p>Website to showcase my skills and personal projects, including information about me.</p>
+                                <a href="https://github.com/EugeneBoondock/alx_capstone_project" target="_blank">Source Code</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="tab-ai" style="display: none;">
+                        <div class="project-cards">
+                            <div class="project-card">
+                                <h3>INK (Intelligent Narrative Keeper)</h3>
+                                <p>An assistant called INK (Intelligent Narrative Keeper) that can generate various types of documents in different formats based on user input. It utilizes OpenAI's text-davinci-003 model for document generation and integrates with external libraries and APIs for additional functionalities.</p>
+                                <a href="https://github.com/EugeneBoondock/INK" target="_blank">Source Code</a>
+                            </div>
+                            <div class="project-card">
+                                <h3>AthenaSynth</h3>
+                                <p>AthenaSynth is an AI alignment experiment that generates responses to user questions based on the ethical perspective of Aristotle, the moral philosophy of Immanuel Kant, and the focus on reason from René Descartes. It uses OpenAI's GPT-3.5-turbo model to provide synthesized answers to questions, taking into account the context and summaries of the works of these philosophers.</p>
+                                <a href="https://github.com/EugeneBoondock/AthenaSynth" target="_blank">Source Code</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-content" id="tab-web3" style="display: none;">
+                        <div class="project-cards">
+                            <div class="project-card">
+                                <h3>Earthie.xyz</h3>
+                                <p>A comprehensive Earth2 platform that provides users with tools, information, and community features for the Earth2 metaverse.</p>
+                                <a href="https://earthie.xyz" target="_blank">Visit Website</a>
+                            </div>
+                            <div class="project-card">
+                                <h3>Earth2 Scripts</h3>
+                                <p>A collection of custom scripts to enhance the Earth2 platform experience, including automation tools and data visualization for property management.</p>
+                                <a href="https://github.com/EugeneBoondock/Earth2Scripts" target="_blank">Source Code</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="window-statusbar">
+                <span>Ready</span>
+            </div>
+        </div>
+
+        <div class="window" id="contact-window">
+            <div class="window-header">
+                <div class="window-title">Contact Me</div>
+                <div class="window-controls">
+                    <button class="minimize-btn">-</button>
+                    <button class="maximize-btn">□</button>
+                    <button class="close-btn">✕</button>
+                </div>
+            </div>
+            <div class="window-toolbar">
+                <button>File</button>
+                <button>Edit</button>
+                <button>Send</button>
+            </div>
+            <div class="window-content">
+                <div class="contact-content">
+                    <h2>Contact Me</h2>
+                    <form id="submitForm" action="https://formspree.io/f/xrgwdrlv" method="POST">
+                        <label for="name">Name:</label>
+                        <input type="text" name="name" id="name" placeholder="Your Name" required>
+                        <p id="errorName" class="error-message"></p>
+
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" id="email" placeholder="Your Email" required>
+                        <p id="errorEmail" class="error-message"></p>
+
+                        <label for="message">Message:</label>
+                        <textarea name="message" rows="4" id="message" placeholder="Say Something" required></textarea>
+                        <p id="errorMessage" class="error-message"></p>
+
+                        <button type="submit">Submit</button>
+                        <p id="errorSubmit" class="error-message"></p>
+                    </form>
+                </div>
+            </div>
+            <div class="window-statusbar">
+                <span>Ready</span>
+            </div>
+        </div>
+
+        <!-- Internet Explorer Window -->
+        <div class="window" id="my-computer-window">
+            <div class="window-header">
+                <div class="window-title">Internet Explorer - Eugene's Portfolio</div>
+                <div class="window-controls">
+                    <button class="minimize-btn">-</button>
+                    <button class="maximize-btn">□</button>
+                    <button class="close-btn">✕</button>
+                </div>
+            </div>
+            <div class="window-toolbar ie-toolbar">
+                <button>File</button>
+                <button>Edit</button>
+                <button>View</button>
+                <button>Favorites</button>
+                <button>Tools</button>
+                <button>Help</button>
+            </div>
+            <div class="window-toolbar ie-address-bar">
+                <div class="ie-nav-buttons">
+                    <button class="ie-back">←</button>
+                    <button class="ie-forward">→</button>
+                    <button class="ie-stop">✕</button>
+                    <button class="ie-refresh">↻</button>
+                    <button class="ie-home">🏠</button>
+                </div>
+                <div class="ie-address">
+                    <span>Address:</span>
+                    <input type="text" value="https://github.com/EugeneBoondock" readonly>
+                    <button class="ie-go">Go</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="ie-content">
+                    <div class="ie-loading">
+                        <div class="ie-loading-text">Loading Eugene's GitHub Profile...</div>
+                        <div class="ie-progress">
+                            <div class="ie-progress-bar"></div>
+                        </div>
+                    </div>
+                    <div class="ie-frame">
+                        <h2>Eugene Boondock's GitHub</h2>
+                        <p>Welcome to my GitHub profile! Here you can find all my projects and contributions.</p>
+                        <div class="ie-profile">
+                            <div class="ie-avatar">
+                                <img src="./icons/user.png" alt="GitHub Avatar">
+                            </div>
+                            <div class="ie-stats">
+                                <h3>Eugene Boondock</h3>
+                                <p>✨ Junior Web Developer</p>
+                                <p>🌱 Learning AI & Web Development</p>
+                                <p>📫 How to reach me: philosncube@gmail.com</p>
+                                <a href="https://github.com/EugeneBoondock" target="_blank" class="ie-button">Visit My GitHub Profile</a>
+                            </div>
+                        </div>
+                        <div class="ie-repos">
+                            <h3>Popular Repositories</h3>
+                            <ul>
+                                <li><a href="https://github.com/EugeneBoondock/INK" target="_blank">INK (Intelligent Narrative Keeper)</a></li>
+                                <li><a href="https://github.com/EugeneBoondock/AthenaSynth" target="_blank">AthenaSynth</a></li>
+                                <li><a href="https://github.com/EugeneBoondock/headphones" target="_blank">Headphones Website</a></li>
+                                <li><a href="https://github.com/EugeneBoondock/Boondocks_Guild_Site" target="_blank">Boondocks Guild Site</a></li>
+                                <li><a href="https://github.com/EugeneBoondock/alx_capstone_project" target="_blank">Personal Portfolio Project</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="window-statusbar">
+                <span>Done</span>
+                <div class="ie-security-icon">🔒</div>
+            </div>
+        </div>
+
+        <!-- Error Dialog -->
+        <div class="window error-dialog" id="error-dialog">
+            <div class="window-header">
+                <div class="window-title">Windows</div>
+                <div class="window-controls">
+                    <button class="close-btn">✕</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="error-content">
+                    <div class="error-icon">❌</div>
+                    <div class="error-message-text">
+                        A problem has been detected and Windows has been shut down to prevent damage to your computer.
+                    </div>
+                </div>
+                <div class="error-buttons">
+                    <button class="ok-button">OK</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Start Menu -->
+        <div class="start-menu" id="start-menu">
+            <div class="start-menu-header">
+                <div class="user-info">
+                    <img src="./icons/user.png" alt="User">
+                    <span>Eugene Boondock</span>
+                </div>
+            </div>
+            <div class="start-menu-body">
+                <div class="start-menu-left">
+                    <div class="start-menu-item" onclick="window.open('https://github.com/EugeneBoondock', '_blank')">
+                        <img src="./icons/msn_xp.png" alt="GitHub" width="24">
+                        <span>GitHub</span>
+                    </div>
+                    <div class="start-menu-item" onclick="window.open('https://www.linkedin.com/in/eboondock/', '_blank')">
+                        <img src="./icons/ie_xp.png" alt="LinkedIn" width="24">
+                        <span>LinkedIn</span>
+                    </div>
+                    <div class="start-menu-item" onclick="window.open('mailto:philosncube@gmail.com')">
+                        <img src="./icons/notepad_xp.png" alt="Email" width="24">
+                        <span>E-mail</span>
+                    </div>
+                    <div class="start-menu-divider"></div>
+                    <div class="start-menu-item" onclick="openWindow('about-window')">
+                        <img src="./icons/my_computer_xp.png" alt="About" width="24">
+                        <span>About Me</span>
+                    </div>
+                    <div class="start-menu-item" onclick="openWindow('skills-window')">
+                        <img src="./icons/documents_xp.png" alt="Skills" width="24">
+                        <span>Skills</span>
+                    </div>
+                    <div class="start-menu-item" onclick="openWindow('projects-window')">
+                        <img src="./icons/msn_xp.png" alt="Projects" width="24">
+                        <span>Projects</span>
+                    </div>
+                    <div class="start-menu-item" onclick="openWindow('contact-window')">
+                        <img src="./icons/notepad_xp.png" alt="Contact" width="24">
+                        <span>Contact</span>
+                    </div>
+                    <div class="start-menu-item" onclick="playSound('notify')">
+                        <img src="./icons/msn_xp.png" alt="Sound" width="24">
+                        <span>Play Sound</span>
+                    </div>
+                </div>
+                <div class="start-menu-right">
+                    <div class="start-menu-item">All Programs ▶</div>
+                </div>
+            </div>
+            <div class="start-menu-footer">
+                <div class="start-menu-item" id="log-off-btn">Log Off</div>
+                <div class="start-menu-item" id="shutdown-btn">Turn Off Computer</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>
